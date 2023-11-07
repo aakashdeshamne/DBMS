@@ -1,0 +1,62 @@
+create table employee(
+    employee_name varchar(20) Primary Key,
+    street varchar(20),
+    city varchar(20)
+);
+
+create table works(
+    employee_name varchar(20),
+    company_name varchar(20),
+    salary int
+);
+
+create table company(
+    company_name varchar(20) Primary Key,
+    city varchar(20)
+);
+
+create table manages(
+    employee_name varchar(20),
+    manager_name varchar(20)
+);
+
+alter table works
+add foreign key(employee_name) references employee(employee_name);
+
+add foreign key(company_name) references company(company_name);
+
+alter table manages
+add foreign key(employee_name) references employee(employee_name);
+
+insert into employee values ("Pankaj","A","Pune"),("Lalit","B","Mumbai"),("Vaibhav","C","Mumbai"),("Pawan","D","Pune"),("Manish","E","Latur"),("Rohan","F","MP");
+
+insert into company values ("First Bank","Pune"),("Second Bank","Mumbai"),("Third Bank","Latur"),("Small Bank","MP");
+
+insert into works values("Pawan","First Bank",20000),("vaibhav","Second Bank",100),("Lalit","Second Bank",2892),("Manish","Third Bank",40000),("Rohan","Small Bank",10000);
+
+insert into manages values
+("Pankaj","Pankaj_M"),("Vaibhav","Vaibhav_M"),("Lalit","Lalit_M"),("Manish","Manish_M"),("Rohan","Rohan_M"),("Pawan","Pawan_M");
+
+
+Quearies
+
+1)select employee_name from works where company_name="First Bank";
+
+2)select employee_name from works where not company_name="First Bank";
+
+3)
+    i)create view A as Select company_name,count(employee_name)as cnt from works group by company_name;
+    ii)select company_name,cnt from A having cnt in (select max(cnt) from A );
+
+4)select company_name from company where city=(select city from company where company_name="Small Bank");
+
+5)select * from employee,works where salary>10000 and employee.employee_name=works.employee_name;
+
+6)update works
+set salary=salary+salary*0.1 where company_name ="First Bank";
+
+7)select * from manages;
+
+8)select employee.employee_name,employee.street,employee.city from employee,works where employee.employee_name=works.employee_name and works.company_name="First Bank" and salary>10000;
+
+9)select * from works where salary>(select avg(salary) from works where company_name="First Bank" group by company_name);

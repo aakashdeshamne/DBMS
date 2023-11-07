@@ -1,0 +1,37 @@
+create table Project(
+    project_id int primary key,
+    proj_name varchar(20),
+    chief_arck varchar(20)
+);
+
+create table Employee(
+    Emp_id int primary key,
+    Emp_name varchar(20)
+);
+
+create table Assigned(
+    project_id int ,
+    Emp_id int
+);
+
+alter table Assigned 
+add foreign key(project_id) references Project(project_id);
+
+alter table Assigned 
+add foreign key(Emp_id) references Employee(Emp_id);
+
+insert into Project values(1,"C353","Pankaj"),(2,"C453","Lalit"),(3,"C253","Avishkar"),(4,"C354","Parimal");
+
+insert into Employee values(1,"ABC"),(2,"LMN"),(3,"XYZ");
+
+insert into Assigned values(1,1),(2,2),(3,3),(4,3);
+
+1)select E.* from Employee E,Assigned A,Project P where P.Project_id=A.Project_id and E.Emp_id=A.Emp_id and P.proj_name="C353";
+
+2)select count(*) from Employee E,Assigned A,Project P where P.Project_id=A.Project_id and E.Emp_id=A.Emp_id and P.proj_name="C353";
+
+3)select E.* from Employee E,Assigned A,Project P where P.Project_id=A.Project_id and E.Emp_id=A.Emp_id and P.proj_name="Database";
+
+4)select E.* from Employee E,Assigned A,Project P where P.Project_id=A.Project_id and E.Emp_id=A.Emp_id and P.proj_name="C354" and P.proj_name="C353";
+
+5)select E.* from Employee E,Assigned A,Project P where P.Project_id=A.Project_id and E.Emp_id=A.Emp_id and not P.proj_name="C453";

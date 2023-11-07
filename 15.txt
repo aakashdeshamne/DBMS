@@ -1,0 +1,80 @@
+15a)
+
+create table client_master(
+Bal_due int,
+
+Name_Client varchar(20)
+);
+
+DELIMITER $
+
+
+create procedure C_M(IN Temp_bal int,Name_C varchar(20))
+
+Begin
+
+insert into client_master values (Temp_bal,Name_C);
+
+if(Temp_bal<0) then
+
+select ('Value is less than zero');
+
+end if;
+
+
+end;
+
+
+$
+
+
+
+call C_M(-10,"Pankaj");
+
+
+
+
+15b)
+
+create table borrow(Roll_no int primary key,
+Name varchar(20),
+DateofIssue Date,
+NameofBook varchar(20),
+Status varchar(20));
+
+create table Fine(
+    Roll_no int ,
+    Date_R Date,
+    Amt int
+);
+
+insert into borrow values(1,"Pankaj","2022-10-11","DBMS","I"),
+(2,"Lalit","2022-11-01","DS","I"),
+(3,"Vaibhav","2022-09-09","TOC","I"),
+(4,"Pawan","2022-11-01","SPM","I");
+
+Delimiter $
+
+create procedure Fine_calc(IN rno int,IN bname varchar(20))
+begin
+declare I_Date Date;
+declare Diff int;
+declare Fine_Amt int ;
+Declare exit handler for sqlexception select 'Table Not Found';
+Select DateofIssue into I_Date from borrow where Roll_no=rno and NameofBook=bname;
+select Datediff(curdate(),I_Date) into diff;
+if(Diff>15 and Diff<30) then
+set FineAmt=Diff*5;
+insert into Fine values(rno,curdate(),Fine_Amt);
+ELSEIF(Diff>30) then
+set FineAmt=75+Diff*50;
+insert into Fine values(rno,curdate(),Fine_Amt);
+ELSEIF(Diff<0) then
+set Fine_Amt=0;
+insert into Fine Values(rno,curdate(),Fine_Amt);
+End if;
+update borrow set status="R" where Roll_no=rno and NameofBook=bname;
+end;
+$
+
+call Fine_calc(1,"DBMS");

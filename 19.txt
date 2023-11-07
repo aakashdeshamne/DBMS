@@ -1,0 +1,94 @@
+Create following Collections Teachers(Tname,dno,dname,experience,salary,date_of_joining )
+
+db.createCollection('Teachers')
+db.Teachers.insertMany([{
+    'Tname': 'Sojwal',
+    'dno': 1,
+    'dname': 'Computer',
+    'experience':11,
+    'salary':10001,
+    'date_of_joining':'1/1/2001'
+    }, 
+    {
+    'Tname': 'Omkar',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':5,
+    'salary':100011,
+    'date_of_joining':'2/2/2012'
+    },
+{
+    'Tname': 'Arshad',
+    'dno': 3,
+    'dname': 'E&TC',
+    'experience':17,
+    'salary':200001,
+    'date_of_joining':'9/6/1996'
+    },
+{
+    'Tname': 'Akshay',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':7,
+    'salary':10002,
+    'date_of_joining':'1/1/2011'
+    }])
+
+Students(Sname,roll_no,class)
+db.createCollection(‘Students’)
+db.Students.insertMany([{
+    'Sname': 'Rupesh',
+    'roll_no': 1,
+    'class': 'Computer'
+    }, 
+    {
+    'Sname': 'Ramdas',
+    'roll_no': 2,
+    'class': 'E&TC'
+    },
+    {
+    'Sname': 'Chetan',
+    'roll_no': 3,
+    'class': 'IT'
+    }])
+
+
+1)db.Teachers.find().pretty()
+
+2)db.Teachers.find({'dname':'Computer'}).pretty()
+
+3)db.Teachers.find().pretty()
+
+4)db.Teachers.find({'salary':{$gte:10000}}).pretty()
+
+5)db.Students.find({$or:[{'roll_no':2},{'Sname':'xyz'}]}).pretty()
+
+6)db.Teachers.insert({
+...     'Tname': 'Praveen',
+...     'dno': 3,
+...     'dname': 'E&TC',
+...     'experience':11,
+...     'salary':5001,
+...     'date_of_joining':'1/1/2021'
+...     })
+
+db.Teachers.updateOne({Tname:'Praveen'}, {$set:{experience:10}})
+
+7)db.Teachers.updateMany({dname:'IT'}, {$set:{dname:'Computer'}})
+
+8)db.Teachers.find({},{dname:0,dno:0,salary:0,date_of_joining:0}).pretty()
+
+9)db.Teachers.save({
+'Tname': 'Rajesh',
+...     'dno': 1,
+...     'dname': 'Computer',
+...     'experience':8,
+...     'salary':50001,
+...     'date_of_joining':'1/1/2019'
+})
+
+10)
+
+11)db.Teachers.deleteMany({“dname”:”IT”})
+
+12)db.Teachers.find().sort({dno:1}).limit(3).pretty()

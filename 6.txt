@@ -1,0 +1,68 @@
+create table Hotel(
+    Hotel_no int primary key,
+    Name varchar(20),
+    city varchar(20)
+);
+
+create table Room(
+    Room_no int,
+    Hotel_no int,
+    type varchar(20),
+    Price int
+);
+
+create table Booking(
+    Hotel_no int ,
+    Guest_no int,
+    Date_From Date,
+    Room_No int
+);
+
+Create table Guest(
+    Guest_No int primary key ,
+    Guest_Name varchar(20),
+    Guest_Address varchar(20)
+);
+
+alter table Room add primary key(Hotel_no,Room_no);
+
+alter table Booking add primary key(Hotel_No,Guest_No,Date_From);
+
+insert into Hotel values (1,"Grosvenor","London"),
+(2,"Rose","London"),(3,"Lily","New York"),
+(4,"Manto","New York"),(5,"Maxin","Delhi");
+
+insert into Room values(101,1,"Family",10000),(102,1,"Double",42000),(201,2,"Single",20000),
+(303,3,"Family",12000),(404,4,"Double",50000),(501,5,"Single",30000);
+
+INSERT into Booking(Hotel_no,Guest_no,Date_From,Date_to,Room_No) values
+(1,10,"2022-04-11","2022-04-13",101),
+(2,20,"2022-06-06","2022-06-16",201),
+(1,30,"2022-08-09","2022-08-16",102),
+(3,40,"2022-04-06","2022-04-10",303),
+(4,50,"2022-01-01","2022-01-11",404),
+(5,60,"2022-05-16","2022-05-11",501);
+
+insert into Guest values(10,"Pankaj","ABC"),(20,"Lalit","XYZ"),(30,"Vaibhav","PQR"),(40,"Manoj","LMN"),(50,"Manish","STR"),(60,"Anand","TRE");
+
+1)select h.hotelno,h.name,h.city,r.type1,r.price from Hotel h, Room r ;
+
+2)SELECT * FROM Hotel WHERE city = 'London';
+
+3)select * from Booking where dateto >= '2022/11/11';
+
+4)select guestname , guestaddress from Guest where guestaddress = 'London' order by guestname;
+
+5)select * from Booking where dateto = 'null'
+
+6)select count(name) from Hotel;
+
+7)
+
+8)
+
+9)CREATE INDEX showON Hotel (hotelno, name);
+
+10)CREATE VIEW hotel_view ASSELECT name, cityFROM  Hotel;
+UPDATE hotel_view SET name = 'India meal' WHERE name = 'Indigo';    (query on view)
+select * from hotel_view;

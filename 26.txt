@@ -1,0 +1,41 @@
+db.pop.insertMany([{city: "Pune", state: "MH", population: 120000},
+
+{city:"Mumbai", state:"MH", population:110000},
+
+{city: "vadodara", state: "Guj",population:1000},
+
+{city:"surat", state: "Guj", population: 80000}]);
+
+
+
+
+
+var mapfunction = function(){
+    emit(this.state,this.population);
+};
+
+
+
+var reducefunction = function(keystate,valuepopulation){
+    return Array.sum(valuepopulation);
+};
+
+
+
+db.pop.mapReduce(
+       mapfunction,
+       reducefunction,
+       {out:"Result"})
+     
+
+
+
+or
+
+
+
+db.pop.mapReduce(function(){emit(this.state,this.population);},{function(key,value){return Array.sum(value);},{out:"Result"});
+
+
+
+db.Result.find();

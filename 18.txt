@@ -1,0 +1,71 @@
+18a)
+ create  table client_master(
+   ID int primary key,
+   Name varchar(20));
+
+create table audit_trade(
+    ID int Primary key,
+    Name varchar(20));
+
+
+insert into Client_master values (1,"Pankaj"),(2,"Lalit"),(3,"Avishkar"),(4,"Parimal");
+
+ create trigger TRIG_U before update on client_master for each row
+  Begin
+  insert into audit_trade values(old.ID,old.Name);
+  end;
+   $
+
+update client_master set name="Sanket" where ID=3;
+
+select * from client_master;
+    select * from audit_trade;
+
+ create trigger TRIG_D BEFORE delete on client_master for each row
+   BEGIN
+   insert into audit_trade values(old.ID,old.Name);
+   end;
+   $
+
+Delete from client_master where ID=2;
+    $
+
+ select * from client_master;
+     select * from audit_trade;
+
+18b)
+ create table Emp
+    (
+    e_no int primary key,
+    e_name varchar(20),
+    salary int );
+
+ create table Tracking(
+    e_no int primary key,
+     salary int);
+
+ insert into Emp values (1,"Pankaj",10000),(2,"Lalit",80000),(3,"Parimal",40000);
+
+
+ create trigger TRIG_U BEFORE insert on Emp for each row
+ Begin
+ if(new.salary<50000) then
+ SIGNAL SQLSTATE '45000';
+ insert into Tracking values(new.e_no,new.salary);
+ end if;
+ end;
+ $
+
+
+create trigger TRIG_Update Before update on Emp for each row
+   Begin
+    if(new.salary<50000) then
+    Insert into Tracking values(new.e_no,new.salary);
+    SIGNAL SQLSTATE '45000';
+    end if;
+    end;
+    $
+
+ update Emp set salary=10000 where e_no=5;
+  $
+ERROR 1644 (45000): Unhandled user-defined exception condition

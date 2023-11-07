@@ -1,0 +1,19 @@
+select * from Emp where salary=(select min(salary) from Emp);
+
+select ename from Emp where ename like "I%";
+
+select * from Emp where hiredate<"2020-1-11";
+
+select * from Emp order by salary desc;
+
+select count(ename),avg(salary) from Emp where deptno=20;
+
+select Emp.ename,dept.deptname from Emp,dept where Emp.deptno=dept.deptno;
+
+select sum(Emp.salary),dept.deptname from Emp,dept where Emp.deptno=dept.deptno group by deptname;
+
+select * from Emp where deptno=(select deptno from dept where deptname="Dev" )
+
+update Emp 
+set salary = salary + (salary* 5/100) 
+where deptno=10;

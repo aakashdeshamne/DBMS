@@ -1,0 +1,67 @@
+create table deposit (actno varchar(5) ,cname varchar(18) , bname varchar(18) , amount int ,adate date); 
+
+create table branch(bname varchar(18),city varchar(18)); 
+
+create table customers(cname varchar(19) ,city varchar(18)); 
+
+create table borrow(loanno varchar(5), cname varchar(18), bname varchar(18), amount int);
+
+deposit: 
+insert into deposit values('100',’anil’,'vrce',1000,'1995-03-01');
+ insert into deposit values('101','sunil','ajni',5000,'1996-01-04'); 
+insert into deposit values('102','mehul','karolbagh',3500,'1995-11-17'); 
+insert into deposit values('104','madhuri','chandi',1200,'1995-12-17'); 
+insert into deposit values('105','prmod','m.g.road',3000,'1996-03-27'); 
+insert into deposit values('106','sandip','andheri',2000,'1996-03-31'); 
+insert into deposit values('107','shivani','virar',1000,'1995-07-05');
+insert into deposit values('108','kranti','nehruplace',5000,'1996-06-02'); 
+insert into deposit values('109','minu','powai',7000,'1997-12-02');
+
+branch:
+insert into branch values('vrce','nagpur');
+insert into branch values('ajni','nagpur'); 
+insert into branch values('karolbagh','delhi'); 
+insert into branch values('chandi','delhi'); 
+insert into branch values('dharampeth','nagpur'); 
+insert into branch values('m.g.road','banglore'); 
+insert into branch values('andheri','bombay'); 
+insert into branch values('vihar','bombay'); 
+insert into branch values('nehru place','delhi'); 
+insert into branch values('powai','bombay');
+
+customer:
+insert into customers values ('anil','calcutta'); 
+insert into customers values ('sunil','delhi');
+insert into customers values ('mehul','baroda'); 
+insert into customers values ('mandar','patna');
+insert into customers values ('madhuri','nagpur'); 
+insert into customers values ('pramod','nagpur');
+insert into customers values ('sandip','surat');
+insert into customers values ('shivani','bombay'); 
+insert into customers values ('kranti','bombay'); 
+insert into customers values ('naren','bombay');
+
+borrow:
+insert into borrow values ('201','anil','vrce',1000); 
+insert into borrow values ('206','mehul','vrce',5000); 
+insert into borrow values ('311','sunil','dharampeth',3000); 
+insert into borrow values ('321','madhuri','andheri',2000); 
+insert into borrow values ('375','prmod','vihar',8000); 
+insert into borrow values ('481','kranti','nehru place',3000);
+
+
+
+
+1)select cname from deposit where amount>4000;
+
+2)select adate from deposit where cname="Anil";
+
+3)select actno,amount from deposit where adate between "1996-12-01" and "1997-05-01";
+
+4)select avg(amount) from deposit where bname="Perryridge";
+
+5)select bname from deposit where amount>1200 group by bname;
+
+6)delete from deposit where amount<5000;
+
+7)create view A as select * from deposit;

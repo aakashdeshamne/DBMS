@@ -1,0 +1,37 @@
+db.games.insertMany([{
+    'name': 'life',
+    'gametype': 'joke',
+    'rating': 100
+    }, 
+    {
+    'name': 'Crypto',
+    'gametype': 'Luck',
+    'rating': 10
+    },
+   {
+    'name': 'Solitare',
+    'gametype': 'card',
+    'rating': 80
+    },
+	{
+    'name': 'Pubg',
+    'gametype': 'FPS',
+    'rating': 80
+    },
+	{
+    'name': 'GTA',
+    'gametype': 'open_world',
+    'rating': 75
+    }])
+
+
+3)db.games.find().pretty()
+
+4)db.games.find().sort({rating:-1}).limit(3).pretty()
+
+5)db.games.updateOne({name:"GTA"},{$set:{Achievement:["Games_Master","Speed_Demon"]}});
+
+6)db.games.find({Achievement:["Games_Master","Speed_Demon"]});
+
+7)db.games.find({Achievement:{$exists:true}})
+

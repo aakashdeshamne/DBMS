@@ -1,0 +1,69 @@
+
+17b)
+create table( N_Roll(
+Roll int primary key,
+Name varchar(20));
+
+create table N_Roll(
+Roll int primary key,
+Name varchar(20));
+
+insert into O_Roll values(1,"Pankaj"),(2,"Avishkar"),(3,"Lalit"),(4,"Parimal");
+
+ create procedure Tra()
+ BEGIN
+ DECLARE TEMP int ;
+ DECLARE EXITCONDITION BOOLEAN;
+ DECLARE CUR1 CURSOR for select Roll from O_Roll;
+ DECLARE continue handler for not found  set EXITCONDITION=TRUE;
+ open CUR1;
+ L1:Loop
+ fetch CUR1 into TEMP;
+ if not exists (select * from N_Roll where Roll=TEMP) then
+ insert into N_Roll select * from O_Roll where Roll=TEMP;
+ end if;
+ if EXITCONDITION THEN
+ close CUR1;
+ LEAVE L1;
+ end if;
+ END Loop;
+ end;
+ $
+
+17c)
+create table Emp(
+e_no int Primary Key,
+d_no int ,
+salary int);
+
+
+
+create table dept_salary(
+d_no int primary key,
+Avg_Salary int);
+
+
+insert into Emp values (1,10,10000),(2,10,30000),(3,20,10400),(4,20,10000),(5,20,3000),(6,30,1500);
+
+DELIMITER $
+create procedure prod()
+BEGIN
+DECLARE TEMP_no int;
+DECLARE EXITCONDITION BOOLEAN;
+DECLARE cur1 cursor for select d_no from Emp;
+DECLARE continue handler for not found set EXITCONDITION = TRUE;
+open cur1;
+L1:Loop
+Fetch cur1 into TEMP_no;
+if not exists (Select * from dept_salary where d_no=TEMP_no) then
+insert into dept_salary select d_no,avg(salary) FROM Emp where d_no=Temp_no ;
+END if;
+IF EXITCONDITION THEN
+close cur1;
+LEAVE L1;
+end if;
+end Loop;
+end;
+$
+
+call prod;

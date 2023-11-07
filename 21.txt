@@ -1,0 +1,84 @@
+Create following Collections Teachers(Tname,dno,dname,experience,salary,date_of_joining )
+
+db.createCollection('Teachers')
+db.Teachers.insertMany([{
+    'Tname': 'Sojwal',
+    'dno': 1,
+    'dname': 'Computer',
+    'experience':11,
+    'salary':10001,
+    'date_of_joining':'1/1/2001'
+    }, 
+    {
+    'Tname': 'Omkar',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':5,
+    'salary':100011,
+    'date_of_joining':'2/2/2012'
+    },
+{
+    'Tname': 'Arshad',
+    'dno': 3,
+    'dname': 'E&TC',
+    'experience':17,
+    'salary':200001,
+    'date_of_joining':'9/6/1996'
+    },
+{
+    'Tname': 'Akshay',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':7,
+    'salary':10002,
+    'date_of_joining':'1/1/2011'
+    }])
+
+Students(Sname,roll_no,class)
+db.createCollection(‘Students’)
+db.Students.insertMany([{
+    'Sname': 'Rupesh',
+    'roll_no': 1,
+    'class': 'Computer'
+    }, 
+    {
+    'Sname': 'Ramdas',
+    'roll_no': 2,
+    'class': 'E&TC'
+    },
+    {
+    'Sname': 'Chetan',
+    'roll_no': 3,
+    'class': 'IT'
+    }])
+
+
+1.Find the information about all teachers 
+db.Teachers.find().pretty()
+
+2.Find the average salary teachers of computer department 
+
+db.Teachers.aggregate([{$match:{"dname":"Computer"}},{$group : {_id : "$dname", salary_maximum : {$avg : "$salary"}}}])
+
+3.Find the minimum and maximum salary of e&TC department teachers
+db.Teachers.aggregate([{$match:{"dname":"E&TC"}},{$group : {_id : "$dname", salary_maximum : {$max : "$salary"}, salary_minimum:{$min : "$salary"}}}])
+
+
+
+4.Find the information about all teachers of computer,IT,and E&TC department having salary greate than or equl to 10000/- 
+
+db.Teachers.find({'salary':{$gte:10000}}).pretty()
+
+5.Find the student information having roll_no = 2 or Sname=xyz
+Same as above questions
+
+
+
+8.	find the teachers name and their experience from teachers collection 
+
+9.	db.Teachers.find({},{dname:0,dno:0,salary:0,date_of_joining:0}).pretty()Using Save() method insert one entry in department collection 
+Same as above
+
+
+10.	Find the total salary all teachers.
+db.Teachers.aggregate([{$group : {_id : "", total_salary : {$sum : "$salary"}}}])

@@ -1,0 +1,99 @@
+mysql> create table Lib(
+    -> Roll int primary key,
+    -> name varcahr(20),
+    -> class varchar(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varcahr(20),
+class varchar(20))' at line 3
+mysql> create table Lib(
+    -> Roll int primary key,
+    -> Name varchar(20),
+    -> class varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table Lib_Audit(
+    -> Roll int primary key,
+    -> Name varchar(20),
+    -> Class varchar(20));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into Lib values (1,"Pankaj","B"),(2,"Avishakar","A"),(3,"Parimal","C"),(4,"Lalit","B");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from Lib;
++------+-----------+-------+
+| Roll | Name      | class |
++------+-----------+-------+
+|    1 | Pankaj    | B     |
+|    2 | Avishakar | A     |
+|    3 | Parimal   | C     |
+|    4 | Lalit     | B     |
++------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> Delimiter $
+mysql> create trigger TRIG_U Before update on Lib for each row
+    -> Begin
+    -> insert into Lib_Audit vlaues(old.Roll,old.Name,old.Class);
+    -> end;
+    -> $
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vlaues(old.Roll,old.Name,old.Class);
+end' at line 3
+mysql> Delimiter $
+mysql> create trigger TRIG_U Before update on Lib for each row
+    -> insert into Lib_Audit vlaues(old.Roll,old.Name,old.Class);
+    -> $
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vlaues(old.Roll,old.Name,old.Class)' at line 2
+mysql> Delimiter $
+mysql> create trigger TRIG_U Before update on Lib for each row
+    -> Begin
+    -> insert into Lib_Audit values(old.Roll,old.Name,old.Class);
+    -> end;
+    -> $
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update Lib set class="D" where Name="Parimal";
+    -> $
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Lib_Audit;
+    -> $
++------+---------+-------+
+| Roll | Name    | Class |
++------+---------+-------+
+|    3 | Parimal | C     |
++------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> create trigger TRIG_D before delete on Lib for each row
+    -> begin
+    -> insert into Lib_Audit values(old.Roll,old.Name,old.Class);
+    -> end;
+    -> $
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from Lib where Name="Lalit";
+    -> $
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Lib_Audit;
+    -> $
++------+---------+-------+
+| Roll | Name    | Class |
++------+---------+-------+
+|    3 | Parimal | C     |
+|    4 | Lalit   | B     |
++------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Lib;
+    -> $
++------+-----------+-------+
+| Roll | Name      | class |
++------+-----------+-------+
+|    1 | Pankaj    | B     |
+|    2 | Avishakar | A     |
+|    3 | Parimal   | D     |
++------+-----------+-------+
+3 rows in set (0.00 sec)

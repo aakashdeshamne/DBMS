@@ -1,0 +1,70 @@
+Create following Collections Teachers(Tname,dno,dname,experience,salary,date_of_joining )
+
+db.createCollection('Teachers')
+db.Teachers.insertMany([{
+    'Tname': 'Sojwal',
+    'dno': 1,
+    'dname': 'Computer',
+    'experience':11,
+    'salary':10001,
+    'date_of_joining':'1/1/2001'
+    }, 
+    {
+    'Tname': 'Omkar',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':5,
+    'salary':100011,
+    'date_of_joining':'2/2/2012'
+    },
+{
+    'Tname': 'Arshad',
+    'dno': 3,
+    'dname': 'E&TC',
+    'experience':17,
+    'salary':200001,
+    'date_of_joining':'9/6/1996'
+    },
+{
+    'Tname': 'Akshay',
+    'dno': 2,
+    'dname': 'IT',
+    'experience':7,
+    'salary':10002,
+    'date_of_joining':'1/1/2011'
+    }])
+
+Students(Sname,roll_no,class)
+db.createCollection(‘Students’)
+db.Students.insertMany([{
+    'Sname': 'Rupesh',
+    'roll_no': 1,
+    'class': 'Computer'
+    }, 
+    {
+    'Sname': 'Ramdas',
+    'roll_no': 2,
+    'class': 'E&TC'
+    },
+    {
+    'Sname': 'Chetan',
+    'roll_no': 3,
+    'class': 'IT'
+    }])
+
+
+1)db.Teachers.aggregate([{$group : {_id : "$dname", salary_avarage : {$avg : "$salary"}}}])
+
+2)db.Teachers.aggregate( [ { $unwind: "$dname" },  { $sortByCount: "$dname" } ] )
+
+3)db.Teachers.aggregate({$group:{_id:"$dname",total_sal:{$sum:"$salary"}}},{$match:{total_sal:{$gt:50000}}});
+
+4)
+
+5)db.Teachers.createIndex({Tname:1}, {unique:true})
+
+6)
+
+7)db.Teachers.getIndexes()
+
+8)db.Teachers.getIndexes()

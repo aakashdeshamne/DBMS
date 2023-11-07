@@ -1,0 +1,102 @@
+
+
+16a)
+create table Bank(
+Account_no int Primary key,
+
+Status varchar(20));
+
+insert into Bank values(101,"Inactivate"),
+(102,"Inactivate"),
+(103,"Inactivate"),
+(104,"Inactivate"),
+(105,"activate"),
+(106,"activate");
+
+create table Deact(Account_no int primary key);
+
+insert into Deact values(100),(101),(102),(103),(104);
+
+DELIMITER $
+
+create procedure mark()
+
+Begin
+
+update Bank set Status="activate" where Account_no in (select Account_no from Deact) ;
+
+if((ROW_COUNT)>0) then
+
+select('Number of accounts activates'||ROW_COUNT);
+
+else
+
+select('No Account is Inactivate');
+
+end if;
+
+end;
+
+$
+
+
+16b)
+create table O_Bank(
+Emp_id int Primary Key,
+salary int);
+
+insert into O_Bank values(1,10000),(2,24000),(3,2000),(4,45000),(5,3000);
+
+create table N_Bank(
+Emp_id int Primary key,
+n_salary int);
+
+DELIMITER $
+
+
+create procedure INCR()
+
+BEGIN
+
+DECLARE temp_salary int ;
+
+Declare temp_id int;
+
+Declare Exitcondition BOOLEAN;
+
+DECLARE cur1 cursor for select Emp_id from O_Bank where salary<(select avg(salary) from O_Bank);
+
+Declare continue handler for not found set Exitcondition=TRUE;
+
+open cur1;
+
+L1:loop
+
+fetch cur1 into temp_id;
+
+if not exists (select * from N_Bank where Emp_id=temp_id) then
+
+update O_Bank set salary=salary+salary*0.01 where Emp_id=temp_id;
+
+insert into N_Bank values (temp_id,salary);
+
+end if;
+
+if Exitcondition then
+
+close cur1;
+
+LEAVE L1;
+
+end if;
+
+End loop L1;
+
+end;
+
+$
+
+
+
+call INCR;
+

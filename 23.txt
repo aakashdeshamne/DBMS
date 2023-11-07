@@ -1,0 +1,55 @@
+mongoimport --db mediadb --collection zip --files zips.json
+
+use meadiadb
+
+show collections
+
+db.zip.find()
+
+
+
+
+
+
+mock>db.pankaj.find()
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c38"), "City" : "Timken", "State" : "ks", "Population" : 100 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c39"), "City" : "Topeka", "State" : "ks", "Population" : 1250 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c3a"), "City" : "Manhattan", "State" : "ks", "Population" : 5400 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c3b"), "City" : "Boston", "State" : "MA", "Population" : 6000 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c3c"), "City" : "Cambridge", "State" : "MA", "Population" : 1200 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c3d"), "City" : "Albany", "State" : "NY", "Population" : 600 }
+{ "_id" : ObjectId("6363f26c9da1f8cff22d6c3e"), "City" : "Austin", "State" : "TX", "Population" : 9600 }
+
+
+Single Field
+mock>db.pankaj.createIndex( { Population: 1 },{name:"Single_filed"} )
+
+
+Composite
+mock>db.pankaj.createIndex( { "Population": 1, "City": 1 },{name:"Composite"})
+
+
+
+
+
+Multykey
+mock>db.pankaj1.insertOne(
+   
+mock>db.pankaj1.createIndex( { city_ratings: 1 },{name:"Multikey"})
+
+
+No of Indexes
+mock>db.pankaj.getIndexes()
+
+
+a) Display all cities having population above 1600
+
+db.pankaj.find({Population:{$gte:1600}})
+
+b)Display all cities in State "KS:
+
+db.pankaj.find({State:"ks"})
+
+c)Display location of city "Timken"
+
+.pankaj.find({"City":"Timken"},{"State":1,"_id":0});

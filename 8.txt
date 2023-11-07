@@ -1,0 +1,41 @@
+create table Employee(emp_no int, primary key(emp_no),name text,skill text,pay_rate int);
+
+create table Positions(posting_no int, primary key(posting_no),skill text);
+
+create table Duty_allocation(posting_no int ,foreign key(posting_no) references Positions(posting_no),emp_no int ,foreign key(emp_no) references Employee(emp_no),day date,shift text);
+
+1. Get the duty allocation details for emp_no 123461 for the month of April 1986.
+select posting_no., shift, day
+from Duty_allocation
+where emp_no = 123461 and
+Day = 1986-04-01 and Day = 1986-04-30 ;
+
+2. Find the shift details for Employee ‘xyz’
+select posting_no., shift, day
+from Duty_allocation, Employee
+where Duty allocation.emp_no. = Employee.emp_no and
+Name = 'XYZ';
+
+3. Get employees whose rate of pay is more than or equal to the rate of pay of employee ‘xyz’
+select S.name, S.pay_rate from Employee as S, Employee as T where S.pay_rate > T.pay_rate and T.name = 'XYZ';
+
+4. Get the names and pay rates of employees with emp_no less than 123460 whose rate of pay is more than the rate of pay of at least one employee with emp_no greater than or equal to 123460.
+Select name, pay_rate  from Employee where emp_no < 123460 and pay_rate > some (select pay_rate from Employee where emp_no = 123460);
+
+5. Find the names of employees who are assigned to all positions that require a Chef’s skill
+select S.Name from Employee S where (select posting_no from Duty_allocation D where S.emp_no = D.emp_no) contains (select P.posting_no from position P where P.skill = 'Chef');
+
+6 .Find the employees with the lowest pay rate
+select emp_no, Name, Pay_rate from Employee where pay_rate = all (select pay_rate from Employee)
+
+7 .Get the employee numbers of all employees working on at least two dates.
+select emp_no from Duty_allocation group by emp_no having (count;*) > 1
+
+8 .Get a list of names of employees with the skill of Chef who are assigned a duty
+select Name from Employee where emp_no in ((select emp_no from Employee where skill = 'Chef') intersect (select emp_no from Duty_allocation));
+
+9 .Get a list of employees not assigned a duty
+(select emp_no from Employee) minus (select emp_no from Duty_allocation)
+
+10.Get a count of different employees on each shift
+select shift, count (distinct emp_no) from Duty_allocation group by shift;
